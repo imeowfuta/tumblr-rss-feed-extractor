@@ -5,17 +5,17 @@ const excludedsubdomain = new Set(["www", "assets", "static", "media", "data", "
 const matches = [];
 let failcount = 0; // to track unsuccessful searches
 
-// first loop through each page of our following url:
+// first loop through different offsets of our following page:
 for (let offset = 0; offset <= 10000; offset += 20) {
     const pageHtml = await fetch(`https://www.tumblr.com/following?offset=${offset}`).then(r => r.text());
-    const pageMatches = pageHtml.matchAll(/https:\/\/([\w-]+)\.tumblr\.com\//g);
+    const pageMatches = pageHtml.matchAll(/https:\/\/([\w-]+)\.tumblr\.com\//g); //regex get all URL
     failcount += 1;
-    // then loop through each match on the current page:
+    // then loop through each URL match on the current page:
     for (const match of pageMatches) { 
         const username = match[1]; // extract the username only
         if (!excludedsubdomain.has(username)) { // check not a tumblr subdomain
             const rssurl = `https://${username}.tumblr.com/rss`; // format username as RSS feed URL
-            if (!matches.includes(rssurl)) { // if URL now already present
+            if (!matches.includes(rssurl)) { // if URL not already present
                 matches.push(rssurl); // add new URL to matches
                 failcount = 0; // mark successful search
             }
