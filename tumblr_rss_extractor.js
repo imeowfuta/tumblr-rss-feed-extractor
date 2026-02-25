@@ -1,4 +1,5 @@
 // TUMBLR RSS FEED EXTRACTOR
+// to run; copy it all into in your browsers console (Ctrl + Shift + K)
 (async () => {
 const excludedsubdomain = new Set(["www", "assets", "static", "media", "data", "blog", "help", "support", "contact", "about", "privacy", "api"]);
 const matches = [];
